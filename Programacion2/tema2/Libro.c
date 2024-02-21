@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+struct *autor;
+struct libro;
+
+struct *autor {
+	char nombre[10];
+	char apellido[10];
+	char pais[10];
+};
+
+struct libro {
+	char nombre[20];
+	char ISBN[13];
+	int paginas;
+	char editorial[20];
+	struct autor *autor;
+};
+
+
+void main() {
+	struct libro libros[3];
+	
+	for (int i = 0; i < 3; i++) {
+		switch (i) {
+			case 0: printf("---------- PRIMER LIBRO ----------\n");
+			break;
+			case 1: printf("---------- SEGUNDO LIBRO ----------\n");
+			break;
+			case 2: printf("---------- TERCER LIBRO ----------\n");
+			break;
+		}
+		printf("Nombre: ");
+		scanf("%s", &libros[i].nombre);
+		while (getchar() != '\n');
+		
+		printf("ISBN: ");
+		scanf("%s", &libros[i].ISBN);
+		while (getchar() != '\n');
+		
+		printf("N. de paginas: ");
+		scanf("%d", &libros[i].paginas);
+		while (getchar() != '\n');
+		
+		printf("Editorial: ");
+		scanf("%s", &libros[i].editorial);
+		while (getchar() != '\n');
+		
+		printf("Nombre del autor: ");
+		scanf("%s", &libros[i].*autor->nombre);
+		while (getchar() != '\n');
+		
+		printf("Apellido del autor: ");
+		scanf("%s", &libros[i].autor->apellido);
+		while (getchar() != '\n');
+		
+		printf("Pais: ");
+		scanf("%s", &libros[i].autor->pais);
+		while (getchar() != '\n');
+	}
+	
+	for (int j = 0; j < 3; j++) {
+		printf("Libro numero %d: Su nombre es %s, su ISBN es %s, tiene %d paginas y lo publico la editorial %s.\n", j+1, libros[j].nombre, libros[j].ISBN, libros[j].paginas, libros[j].editorial);
+		printf("Su autor es %s %s y es de %s\n", libros[j].autor->nombre, libros[j].autor->apellido, libros[j].autor->pais);
+	}
+	
+	printf("Enhorabuena, no te ha dado ningún error :)");
+}
