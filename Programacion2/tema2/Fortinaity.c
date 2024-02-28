@@ -2,7 +2,6 @@
 
 enum fortinaityilababayi {fortinaity, babayi, ekesbokesseresekes, palasteishonfaif, loyitek, haiparekesekesekesekes, grandeftoirini} fortinaityilababayi;
 int numero;
-char xd[30];
 
 void main() {
 	printf("Introduce un numero: ");
