@@ -34,7 +34,6 @@ void main() {
 		scanf("%d", &opcion);
 		switch (opcion) {
 			case 1: crearMesa(mesas, cantidadmesas);
-			direccion++;			// Si incremento el puntero fuera del main deja de funcionar
 			break;
 			case 2: mostrarMesas(mesas, cantidadmesas);
 			break;
@@ -62,6 +61,7 @@ void crearMesa(mesa mesas[100], int *cantidadmesas) {
 	scanf("%d", &mesas[*cantidadmesas].material);
 	printf("Ahora introduce su precio: ");
 	scanf("%d", &mesas[*cantidadmesas].precio);
+	*cantidadmesas = *cantidadmesas + 1;		// Si uso el método de *cantidadmesas++ por la razón que sea no quiere
 }
 
 void mostrarMesas(mesa mesas[100], int *cantidadmesas) {
@@ -81,7 +81,7 @@ void mostrarMesas(mesa mesas[100], int *cantidadmesas) {
 			case metal: printf("metal\n");
 			break;
 		}
-		printf("Precio: %d euros", mesas[i].precio);
+		printf("Precio: %d euros\n", mesas[i].precio);
 	}
 }
 

@@ -1,36 +1,33 @@
 #include <stdio.h>
 
-void funcion1(char *puntero, char array[10]);
-
 void main() {
-	char *puntero;
-	char array[10];
-	puntero = &array[0];
+	int *puntero;
+	int direccion = 0;
+	puntero = &direccion;
 	
-	funcion1(puntero, array);
-	
-	for (int j = 0; j < 10; j++) {
-		printf("%c", *(puntero+j));
-	}
-	
-	printf("\nLa frase es ");
-	for (int i = 0; i < 10; i++)  {
-		printf("%c", *(puntero+i));
-	}
+	printf("En la direccion de memoria hay un %d\n", *puntero);
+	funcion (&puntero);
+	printf("Ahora hay un %d", *puntero);
 }
 
-void funcion1(char *puntero, char array[10]) {
-	//char array[10];
-	
-	printf("Introduce una frase: ");
-	fgets(array, 10, stdin);
-	
-	for (int i = 0; i < 10; i++) {
-		*(puntero+i) = array[i];
-	}
-	
-	for (int j = 0; j < 10; j++) {
-		printf("%c", *(puntero+j));
-	}
-	printf("\n");
+void funcion (int *puntero) {
+	*puntero = *puntero + 1;
 }
+
+/*#include <stdio.h>
+#include <math.h>
+
+
+void elevar_al_cubo(double *n)
+{
+    *n = pow(*n, 3);
+}
+
+int main(int argc, char const *argv[])
+{
+    double n = 5;
+    printf("%0.f elevado a 3 es ", n);
+    elevar_al_cubo(&n);
+    printf("%0.f.\n", n);
+    return 0;
+}*/

@@ -56,7 +56,6 @@ void introducirFrase(char *pfrase, char array[10]) {
 		*(pfrase+i) = '\0';		// Inicializo el array
 	}
 	fgets(array, 40, stdin);
-	printf("\n"); 
 }
 
 void mostrarResultado(char *pfrase, int argc, char caracteres[10]) {
