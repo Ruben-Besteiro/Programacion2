@@ -4,7 +4,7 @@ void main() {
 	char cadena1[30];
 	char cadena2[30];
 	
-	char * pcadena2;
+	char *pcadena2;
 	pcadena2 = &cadena2[0];
 	
 	printf("Introduce una cadena: ");
