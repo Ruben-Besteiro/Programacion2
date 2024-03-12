@@ -21,8 +21,8 @@ typedef struct {
 	resultado res3vs4[3];
 } jornada;
 
-void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[]);
-void introducirResultado(jornada *jornadas[], pareja parejas[], int *introducistejornadas[]);
+void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[], char *argv[]);
+void introducirResultado(jornada *jornadas[], pareja parejas[], int *introducistejornadas[], char *argv[]);
 void verResultados(jornada *jornadas[], pareja parejas[], int *introducistejornadas[]);
 void parejaGanadora(jornada *jornadas[], pareja parejas[], int *introducistejornadas[]);
 
@@ -62,10 +62,10 @@ void main(int argc, char *argv[]) {
 		printf("Pareja %d: %s y %s\n", i+1, parejas[i].jugador1, parejas[i].jugador2);
 	}
 	
-	menu(parejas, jornadas, introducistejornadas);
+	menu(parejas, jornadas, introducistejornadas, argv);
 }
 
-void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[]) {
+void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[], char *argv[]) {
 	int opcion = 0;
 	
 	do {
@@ -77,7 +77,7 @@ void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[]) {
 		scanf("%d", &opcion);
 		
 		switch (opcion) {
-			case 1: introducirResultado(jornadas, parejas, introducistejornadas);
+			case 1: introducirResultado(jornadas, parejas, introducistejornadas, argv);
 			break;
 			case 2: verResultados(jornadas, parejas, introducistejornadas);
 			break;
@@ -91,7 +91,7 @@ void menu(pareja parejas[], jornada *jornadas[], int *introducistejornadas[]) {
 	} while (opcion != 4);
 }
 
-void introducirResultado(jornada *jornadas[], pareja parejas[], int *introducistejornadas[]) {
+void introducirResultado(jornada *jornadas[], pareja parejas[], int *introducistejornadas[], char *argv[]) {
 	int jornadaintroducida = -1, partidointroducido = -1;
 	
 	printf("Elige de que jornada sera el resultado a introducir (1-3): ");
@@ -100,7 +100,7 @@ void introducirResultado(jornada *jornadas[], pareja parejas[], int *introducist
 	switch (jornadaintroducida) {
 		case 1:
 			do {
-				printf("%s y %s vs %s y %s: ", parejas[0].jugador1, parejas[0].jugador2, parejas[1].jugador1, parejas[1].jugador2);
+				printf("%s y %s vs %s y %s: ", /*parejas[0].jugador1*/argv[1], parejas[0].jugador2, parejas[1].jugador1, parejas[1].jugador2);
 				scanf("%d-%d", &jornadas[0]->res1vs2->juegosequipo1, &jornadas[0]->res1vs2->juegosequipo2);
 			} while (!(jornadas[0]->res1vs2->juegosequipo1 == 2 && jornadas[0]->res1vs2->juegosequipo2 < 2) && !(jornadas[0]->res1vs2->juegosequipo1 < 2 && jornadas[0]->res1vs2->juegosequipo2 == 2));
 			do {
