@@ -21,6 +21,14 @@ typedef struct {
 } grabacion;
 
 
+void nuevaGrabacion(grabacion *primeragrabacion, int *pcantidadgrabaciones);
+void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones);
+void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones);
+void asignacion(grabacion *primeragrabacion, estacion *primeraestacion);
+void verEstaciones(estacion *primeraestacion, int *pcantidadestaciones, grabacion *primeragrabacion, int *pcantidadgrabaciones);
+void salir(grabacion *primeragrabacion, estacion *primeraestacion);
+
+
 void main() {
 	int numero;
 	grabacion *primeragrabacion = (grabacion *) malloc(sizeof(grabacion));
@@ -48,7 +56,7 @@ void main() {
 			break;
 			case 2: nuevaEstacion(primeraestacion, pcantidadestaciones);
 			break;
-			case 3: asignacion();
+			case 3: asignacion(primeragrabacion, primeraestacion);
 			break;
 			case 4: verEstaciones(primeraestacion, pcantidadestaciones, primeragrabacion, pcantidadgrabaciones);
 			break;
@@ -69,11 +77,11 @@ void nuevaGrabacion(grabacion *primeragrabacion, int *pcantidadgrabaciones) {
 	printf("Nombre: ");
 	fgets(((primeragrabacion+(*pcantidadgrabaciones))->nombre), 20, stdin);
 	
-	printf("Su nombre es: ");
+	/*printf("Su nombre es: ");
 	for (int i = 0; i < 20; i++) {
 		printf("%c", (primeragrabacion+*pcantidadgrabaciones)->nombre[i]);
 	}
-	printf("\n");
+	printf("\n");*/
 	
 	do {
 		printf("Fecha (dia/mes/ano): ");
@@ -90,35 +98,48 @@ void nuevaGrabacion(grabacion *primeragrabacion, int *pcantidadgrabaciones) {
 
 
 void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones) {
-	*(pcantidadestaciones)++;
+	*(pcantidadestaciones) += 1;
 	primeraestacion = (estacion *) realloc(primeraestacion, sizeof(estacion)*(*pcantidadestaciones));
+	
+	int intscanf3 = 0;
 	
 	printf("Estacion %d\n", (*pcantidadestaciones));
 	printf("Nombre: ");
-	fgets(((primeraestacion+*pcantidadestaciones)->nombre), 20, stdin);
+	fgets((primeraestacion+*pcantidadestaciones)->nombre, 20, stdin);
 	
-	printf("Coordenadas: ");
-	scanf("%f %f", &((primeraestacion+*pcantidadestaciones)->latitud), &((primeraestacion+*pcantidadestaciones)->longitud));
+	do {
+		printf("Coordenadas: ");
+		intscanf3 = scanf("%f %f", &((primeraestacion+*pcantidadestaciones-1)->latitud), &((primeraestacion+*pcantidadestaciones-1)->longitud));
+	} while (intscanf3 != 2);
 }
 
 
-void asignacion() {
+void asignacion(grabacion *primeragrabacion, estacion *primeraestacion) {
+	int idgrabacion;
+	printf("Escoge un id de grabacion: ");
+	scanf("%d", &idgrabacion);
+	printf("Has escogido ");
+	for (int i = 0; i < 20; i++) {
+		printf("%c", (primeragrabacion+idgrabacion)->nombre[i]);
+	}
+	printf("\n");
 	
 }
 
 
 void verEstaciones(estacion *primeraestacion, int *pcantidadestaciones, grabacion *primeragrabacion, int *pcantidadgrabaciones) {
-	printf("C mamo");
-	for (int i = 0; i < *pcantidadestaciones+1; i++) {
+	for (int i = 1; i < *pcantidadestaciones+1; i++) {
 		printf("Estacion %d:\n", i);
 		
 		printf("Su nombre es: ");
 		for (int j = 0; j < 20; j++) {
-			printf("%c", (primeragrabacion+i)->nombre[j]);
+			printf("%c", (primeraestacion+i)->nombre[j]);
 		}
 		printf("\n");
 		
-		//printf("Nombre: %s", (primeraestacion+*pcantidadestaciones)->nombre[i]);
+		printf("Sus coordenadas son %f %f\n", (primeraestacion+i-1)->latitud, (primeraestacion+i-1)->longitud);
+		
+		printf("Sus grabaciones son: no implementado\n");
 	}
 }
 
