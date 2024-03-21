@@ -3,13 +3,13 @@
 
 void main() {
 	FILE *archivo;
-	archivo = fopen("quevivaelmaincra.txt", "r");
+	archivo = fopen("quevivaelmaincra.txt", "rw+");
 	
 	if (archivo == NULL) {
 		printf("El archivo no existe :(\n");
 	} else {
 		for (int i = 'a'; i <= 'z'; i++) {
-			putc(i, archivo);
+			fscanf(archivo, "%c", i);
 		}
 	}
 	fputs("\nQue viva el Maincra", archivo);
@@ -18,7 +18,7 @@ void main() {
 	
 	while (ascii != '0') {
 		ascii = getc(archivo);
-		printf("%c", ascii);
+		fprintf(archivo, "%c", ascii);
 	}
 	
 	fclose(archivo);
