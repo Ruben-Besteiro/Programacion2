@@ -3,7 +3,7 @@
 #include <string.h>
 
 typedef struct {
-	char nombre[20];
+	char *nombre;
 	float latitud;
 	float longitud;
 } estacion;
@@ -13,21 +13,22 @@ typedef enum {
 } formato;
 
 typedef struct {
-	char nombre[20];
+	char *nombre;
 	short dia;
 	short mes;
 	short año;
 	formato formato;
-	char nombreestacion[20];
+	char *nombreestacion;
 } grabacion;
 
 
 void nuevaGrabacion(grabacion *primeragrabacion, int *pcantidadgrabaciones);
 void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones);
 void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones);
-void asignacion(grabacion *primeragrabacion, estacion *primeraestacion, int *pcantidadgrabaciones, int *pcantidadestaciones);
+void asignacion(grabacion *primeragrabacion, estacion *primeraestacion);
 void verEstaciones(estacion *primeraestacion, int *pcantidadestaciones, grabacion *primeragrabacion, int *pcantidadgrabaciones);
 void salir(grabacion *primeragrabacion, estacion *primeraestacion);
+//void leeLineaDinamica(char *(primeragrabacion+*pcantidadgrabaciones)->nombre);
 
 
 void main() {
@@ -57,7 +58,7 @@ void main() {
 			break;
 			case 2: nuevaEstacion(primeraestacion, pcantidadestaciones);
 			break;
-			case 3: asignacion(primeragrabacion, primeraestacion, pcantidadgrabaciones, pcantidadestaciones);
+			case 3: asignacion(primeragrabacion, primeraestacion);
 			break;
 			case 4: verEstaciones(primeraestacion, pcantidadestaciones, primeragrabacion, pcantidadgrabaciones);
 			break;
@@ -69,20 +70,21 @@ void main() {
 
 
 void nuevaGrabacion(grabacion *primeragrabacion, int *pcantidadgrabaciones) {
-	*(pcantidadgrabaciones) += 1;
+	*(pcantidadgrabaciones)++;
 	primeragrabacion = (grabacion *) realloc(primeragrabacion, sizeof(grabacion)*(*pcantidadgrabaciones));
 	
 	int intscanf = 0, intscanf2 = 0;		// Estos se usarán para comprobar si lo que se mete por los scanfs es válido
 	
 	printf("Grabacion %d\n", (*pcantidadgrabaciones));
 	printf("Nombre: ");
-	fgets(((primeragrabacion+(*pcantidadgrabaciones))->nombre), 20, stdin);
+	//fgets(((primeragrabacion+(*pcantidadgrabaciones))->nombre), 20, stdin);
+	leeLineaDinamica(primeragrabacion, pcantidadgrabaciones);
 	
 	do {
-		printf("Fecha (dia/mes/anio): ");
+		printf("Fecha (dia/mes/ano): ");
 		intscanf = scanf("%d/%d/%d", &(primeragrabacion+*pcantidadgrabaciones)->dia, &(primeragrabacion+*pcantidadgrabaciones)->mes, &(primeragrabacion+*pcantidadgrabaciones)->año);
 		while(getchar() != '\n');
-	} while (intscanf != 3);		// Es posible que de la nada el programa decida parar la ejecución cuando se introduce la fecha
+	} while (intscanf != 3);			// Es posible que el programa de la nada decida parar la ejecución después de ejecutar esto
 	
 	do {
 		printf("Formato (0 = MP3, 1 = WAV, 2 = WMA, 3 = OGG): ");
@@ -100,28 +102,24 @@ void nuevaEstacion(estacion *primeraestacion, int *pcantidadestaciones) {
 	
 	printf("Estacion %d\n", (*pcantidadestaciones));
 	printf("Nombre: ");
-	fgets((primeraestacion+*pcantidadestaciones)->nombre, 20, stdin);
+	//fgets((primeraestacion+*pcantidadestaciones)->nombre, 20, stdin);
+	leeLineaDinamica2(primeraestacion, pcantidadestaciones);
 	
 	do {
 		printf("Coordenadas: ");
 		intscanf3 = scanf("%f %f", &((primeraestacion+*pcantidadestaciones-1)->latitud), &((primeraestacion+*pcantidadestaciones-1)->longitud));
-		while(getchar() != '\n');
 	} while (intscanf3 != 2);
 }
 
 
-void asignacion(grabacion *primeragrabacion, estacion *primeraestacion, int *pcantidadgrabaciones, int *pcantidadestaciones) {
-	if (*pcantidadgrabaciones == 0 || *pcantidadestaciones == 0) {
-		printf("Debes introducir al menos una grabacion y una estacion\n");
-		return;
-	}
-	
-	int idgrabacion = 0, idestacion = 0;
+void asignacion(grabacion *primeragrabacion, estacion *primeraestacion) {
+	int idgrabacion, idestacion;
 	printf("Escoge un id de grabacion (empezando por el 1): ");
 	scanf("%d", &idgrabacion);
+	idgrabacion;
 	printf("Has escogido ");
 	for (int i = 0; i < 20; i++) {
-		printf("%c", (primeragrabacion+idgrabacion)->nombre[i]);		// No va
+		printf("%c", (primeragrabacion+idgrabacion)->nombre[i]);
 		if ((primeragrabacion+idgrabacion)->nombre[i] == '\n') {		// Esto lo que hace es impedir que se muestre basura por pantalla
 			break;
 		}
@@ -130,6 +128,7 @@ void asignacion(grabacion *primeragrabacion, estacion *primeraestacion, int *pca
 	
 	printf("Ahora elige un id de estacion que asignarle a dicha grabacion: ");
 	scanf("%d", &idestacion);
+	idestacion;
 	
 	for (int i = 0; i < 20; i++) {
 		(primeragrabacion+idgrabacion)->nombreestacion[i] = (primeraestacion+idestacion)->nombre[i];
@@ -137,7 +136,7 @@ void asignacion(grabacion *primeragrabacion, estacion *primeraestacion, int *pca
 	printf("Has escogido ");
 	for (int i = 0; i < 20; i++) {
 		printf("%c", (primeragrabacion+idgrabacion)->nombreestacion[i]);
-		if ((primeragrabacion+idgrabacion)->nombreestacion[i] == '\n') {
+		if ((primeragrabacion+idgrabacion)->nombreestacion[i] == '\n') {		// Esto lo que hace es impedir que se muestre basura por pantalla
 			break;
 		}
 	}
@@ -148,11 +147,11 @@ void asignacion(grabacion *primeragrabacion, estacion *primeraestacion, int *pca
 void verEstaciones(estacion *primeraestacion, int *pcantidadestaciones, grabacion *primeragrabacion, int *pcantidadgrabaciones) {
 	for (int i = 1; i < *pcantidadestaciones+1; i++) {
 		printf("Estacion %d:\n", i);
-											// Por alguna razón, hacer alguna asignación corrompe la parte de la memoria con la estación asignada
-		printf("Su nombre es: ");			// y solamente la estación asignada
+		
+		printf("Su nombre es: ");
 		for (int j = 0; j < 20; j++) {
-			printf("%c", (primeraestacion+i)->nombre[j]);
-			if ((primeraestacion+i)->nombre[j] == '\n') {
+			printf("%c", ((primeraestacion+i)->nombre)+j);
+			if (((primeraestacion+i)->nombre)+j == '\n') {		// Esto lo que hace es impedir que se muestre basura por pantalla
 				break;
 			}
 		}
@@ -160,30 +159,42 @@ void verEstaciones(estacion *primeraestacion, int *pcantidadestaciones, grabacio
 		printf("Sus coordenadas son %f %f\n", (primeraestacion+i-1)->latitud, (primeraestacion+i-1)->longitud);
 		
 		printf("Sus grabaciones son:");
-		for (int i = 0; i < *pcantidadestaciones; i++) {
+		/*for (int i = 0; i < *pcantidadestaciones; i++) {
 			if (strcmp((primeraestacion+i)->nombre, (primeragrabacion+i)->nombreestacion)) {
-				printf(" %s (fecha: %d/%d/%d, formato: ", (primeragrabacion+i)->nombre, (primeragrabacion+i)->dia, (primeragrabacion+i)->mes, (primeragrabacion+i)->año);
+				printf(" %s ", (primeraestacion+i)->nombre);
 			}
-			switch ((primeragrabacion+i)->formato) {
-				case 0: printf("MP3");
-				break;
-				case 1: printf("WAV");
-				break;
-				case 2: printf("WMA");
-				break;
-				case 3: printf("OGG");
-				break;
-			}
-			printf(" )");
-		}
+		}*/
 		printf("\n");
 	}
 }
 
+
 void salir(grabacion *primeragrabacion, estacion *primeraestacion) {
-	printf("Has elegido ir\n");
+	printf("Has elegido ir");
 	free(primeragrabacion);
 	free(primeraestacion);
-	printf("Gracias por utilizar este programa");
 	exit(0);
+}
+
+
+void leeLineaDinamica(grabacion *primeragrabacion, int *pcantidadgrabaciones) {
+	//fgets((primeragrabacion+*pcantidadgrabaciones)->nombre, 20, stdin);
+	int i = 0;
+	char caracter;
+	while ((caracter = getchar()) != '\n') {
+		*(((primeragrabacion+*pcantidadgrabaciones)->nombre)+i) = caracter;
+	}
+}
+
+void leeLineaDinamica2(grabacion *primeraestacion, int *pcantidadestaciones) {
+	//fgets((primeragrabacion+*pcantidadgrabaciones)->nombre, 20, stdin);
+	int i = 0;
+	char caracter;
+	while ((caracter = getchar()) != '\n') {
+		*(((primeraestacion+*pcantidadestaciones)->nombre)+i) = caracter;
+	}
+	printf("Has elegido: ");
+	for (int j = 0; j < 20; j++) {
+		//printf("%c", *((primeraestacion+*pcantidadestaciones)->nombre+i);
+	}
 }
