@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 	
 	//estructura.nombre_alumno_p = leeLineaDinamicaBloques();
 	
-	estructura.nombre_alumno_p[5] = 'X';				// Aunque nombre_alumno_p sea un puntero, aun así es posible manejarlo como un array
+	estructura.nombre_alumno_p[5] = 0;				// Aunque nombre_alumno_p sea un puntero, aun así es posible manejarlo como un array
 	printf("%s\n", estructura.nombre_alumno_p);
 	
 	free(estructura.nombre_alumno_p);

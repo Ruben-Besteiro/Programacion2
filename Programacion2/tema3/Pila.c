@@ -1,78 +1,105 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct nodo {
-    int numero;
-    struct nodo *siguiente;
-};
-
-void MeterNodo(int num, struct nodo **pila);
-void SacarNodo(struct nodo **pila);
-int Vacia(struct nodo *pila);
-void ImprimirPila(struct nodo *pila);
+void calcularTamano(int *ptamañopila);
+void push(int *ptamañopila, int *puntero);
+void pop(int *ptamañopila, int *puntero);
+void leerUltimo(int *ptamañopila, int *puntero);
+void vacia(int *ptamañopila);
+void imprimirPila(int *ptamañopila, int *puntero);
+void ir(int *puntero);
 
 void main() {
-    struct nodo *pila = NULL;
-    int n = 0;
-    int numero;
-    do {
-        printf("Pulsa 1 para hacer un push\n");
-        printf("Pulsa 2 para hacer un pop\n");
-        printf("Pulsa 3 para imprimir la pila\n");
-        printf("Pulsa 4 para salir\n");
-        scanf("%d", &numero);
-        switch(numero) {
-            case 1:
-                MeterNodo(n, &pila);
-                n++;
-                break;
-            case 2:
-                SacarNodo(&pila);
-                n--;
-                break;
-            case 3:
-                ImprimirPila(pila);
-                break;
-            case 4:
-				exit(0);
-                break;
-            default:
-                printf("Eres tonto\n");
-        }
-    } while(numero != 4);
+	int *puntero;
+	int a;
+	puntero = &a;
+
+	puntero = (int *) malloc(sizeof(int));
+	int *ptamañopila;
+	int tamañopila = 0;
+	ptamañopila = &tamañopila;
+	
+	int opcion;
+	do {
+		printf("Pulsa 1 para calcular el tamano de la pila\n");
+		printf("Pulsa 2 para anadir un numero a la pila\n");
+		printf("Pulsa 3 para quitar el ultimo elemento de la pila\n");
+		printf("Pulsa 4 para leer el ultimo elemento de la pila\n");
+		printf("Pulsa 5 para ver si la pila esta vacia\n");
+		printf("Pulsa 6 para recorrer toda la pila e imprimirla\n");
+		printf("Pulsa 7 para ir\n");
+	
+	
+		scanf("%d", &opcion);
+		switch (opcion) {
+			case 1: calcularTamano(ptamañopila);
+			break;
+			case 2: push(ptamañopila, puntero);
+			break;
+			case 3: pop(ptamañopila, puntero);
+			break;
+			case 4: leerUltimo(ptamañopila, puntero);
+			break;
+			case 5: vacia(ptamañopila);
+			break;
+			case 6: imprimirPila(ptamañopila, puntero);
+			break;
+			case 7: ir(puntero);
+			break;
+			default: printf("Eres tonto\n");
+		}
+	} while (opcion != 7);
 }
 
-
-void MeterNodo(int num, struct nodo **pila) {
-    struct nodo *nuevo = (struct nodo *) malloc(sizeof(struct nodo));
-    nuevo->numero = num;
-    nuevo->siguiente = *pila;
-    *pila = nuevo;
+void calcularTamano(int *ptamañopila) {
+	printf("El tamano de la pila es %d\n", *ptamañopila);
 }
 
-void SacarNodo(struct nodo **pila) {
-    if (*pila == NULL) {
-        printf("La pila esta vacia\n");
-        return;
-    }
-    struct nodo *temp = *pila;
-    *pila = (*pila)->siguiente;
-    free(temp);
+void push(int *ptamañopila, int *puntero) {
+	int intscanf;
+	printf("Posicion actual: %d\n", *ptamañopila+1);
+	
+	do {
+		printf("Introduce un numero: ");
+		intscanf = scanf("%d", puntero+*ptamañopila);
+		while(getchar() != '\n');
+	} while (intscanf != 1);
+	
+	puntero = (int *) realloc(puntero, sizeof(int)*(*ptamañopila)+1);
+	*(ptamañopila) += 1;
 }
 
-int Vacia(struct nodo *pila) {
-    return pila == NULL;
+void pop(int *ptamañopila, int *puntero) {
+	*(puntero+*ptamañopila-1) = 0;
+	printf("El numero en la posicion %d ha sido borrado\n", *ptamañopila);
+	*(ptamañopila) -= 1;
 }
 
-void ImprimirPila(struct nodo *pila) {
-    if (pila == NULL) {
-        printf("La pila esta vacia\n");
-        return;
-    }
-    struct nodo *temp = pila;
-    while (temp != NULL) {
-        printf("%d ", temp->numero);
-        temp = temp->siguiente;
-    }
-    printf("\n");
+void leerUltimo(int *ptamañopila, int *puntero) {
+	if (*ptamañopila == 0) {
+		printf("No hay nada que leer\n");
+	} else {
+		printf("Numero %d: %d\n", *ptamañopila, *(puntero+(*ptamañopila-1)));
+	}
+}
+
+void vacia(int *ptamañopila) {
+	if (*ptamañopila == 0) {
+		printf("La pila esta vacia\n");
+	} else {
+		printf("La pila no esta vacia\n");
+	}
+}
+
+void imprimirPila(int *ptamañopila, int *puntero) {
+	for (int i = 1; i <= *ptamañopila; i++) {
+		printf("Numero %d: %d\n", i, *(puntero+i-1));
+	}
+}
+
+void ir(int *puntero) {
+	printf("Has elegido ir\n");
+	free(puntero);
+	printf("Gracias por utilizar este programa");
+	exit(0);
 }
