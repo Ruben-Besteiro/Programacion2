@@ -1,0 +1,3 @@
+Nombre: Willy, Apellido: Rex, Edad: 0
+Nombre: Vegetta, Apellido: 777, Edad: 69
+Nombre: Maincra, Apellido: AAAAA, Edad: 0
