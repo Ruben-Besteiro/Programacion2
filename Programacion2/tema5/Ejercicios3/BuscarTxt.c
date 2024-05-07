@@ -8,7 +8,7 @@ typedef struct {
 	int *lineas;
 } palabraInfo;
 
-void examinarLinea(FILE *texto, char **lineas, char *argv[]);
+void examinarArchivo(FILE *archivo2, char *texto, int argc, char *argv[]);
 
 void main(int argc, char *argv[]) {
 	if (argc < 2) {
@@ -17,6 +17,7 @@ void main(int argc, char *argv[]) {
 	}
 	
 	FILE *archivo = fopen("texto.txt", "r");
+	FILE *archivo2 = fopen("salida.txt", "w");
 	//printf("%p", archivo);
 
 	char *texto = (char *) malloc(1000000);
@@ -24,45 +25,30 @@ void main(int argc, char *argv[]) {
 	for (int i = 0; !feof(archivo); i++) {
 		char caracter = getc(archivo);
 		texto[i] = caracter;
-		if (texto[i] == '\n' || texto[i] == '.') {
-			texto[i] = ' ';
-		}
 	}
 	//printf("%s", texto);
 	
-	
-	int *ocurrencias = (int *) calloc(argc-1, sizeof(int)*(argc-1));
-	if (strstr(argv[1], texto) != NULL) {
-		oc
-	}
-	
-	
-	/**palabras[0] = strtok(texto, " ");
-	for (int i = 1; i < 100; i++) {
-		printf("XD");
-		printf("%s", palabras[i-1]);
-		*palabras[i] = strtok(NULL, " ");
-	}
-	for (int i = 0; i < 100; i++) {
-		for (int j = 0; *(*(palabras+i)+j) != ' '; j++) {
-			*(*(palabras+i)+j) = *(texto+i);
-		}
-	}*/
+	examinarArchivo(archivo2, texto, argc, argv);
 	
 	free(texto);
 	fclose(archivo);
+	fclose(archivo2);
 	exit(0);
 }
 
-/*void examinarLinea(FILE *texto, char **lineas, char *argv[]) {
-	char newchar;
-	for (int i = 0; !feof(texto); i++) {
-		for (int j = 0; (newchar = getc(texto)) != EOF; j++) {
-			*(*(lineas+i)+j) = newchar;
-			//printf("%c", *(*(lineas+i)+j));
-			if (strstr(argv[1], *lineas) != NULL) {			// No va
-				printf("%s se ha encontrado en la linea %d", argv[1], i);
-			}
+void examinarArchivo(FILE *archivo2, char *texto, int argc, char *argv[]) {
+	for (int i = 1; i <= argc-1; i++) {
+		//int *ocurrencias = (int *) calloc(argc-1, sizeof(int)*(argc-1));
+		int ocurrencias = 0;
+		char *palabra = NULL;
+		palabra = strstr(texto, argv[i]);
+
+		while (palabra != NULL) {
+			ocurrencias++;
+			palabra = strstr(palabra+1, argv[i]);
 		}
+		fprintf(archivo2, "Palabra: %s. Ocurrencias: %d\n", argv[i], ocurrencias);
+		printf("Palabra: %s. Ocurrencias: %d\n", argv[i], ocurrencias);
+		ocurrencias = 0;
 	}
-}*/
+}

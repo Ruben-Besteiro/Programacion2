@@ -40,17 +40,8 @@ void main(int argc, char *argv[]) {
 	
 	for (int i = 0; frase[i][0] != '\0'; i++) {
 		printf("%s", frase[i]);
-		fputs(frase[i], archSalida);			// No le sale de los cojones
+		fputs(frase[i], archSalida);
 	}
-	
-	/*char *frasefinal[100];
-	for (int i = 0; i < 100; i++) {
-		for (int j = 0; j < numero; j++) {
-			frasefinal[i][j] = frase[i][j];
-		}
-		fputs(frasefinal[i], archSalida);
-		printf("%s", frasefinal[i]);
-	}*/
 	
 	fclose(archEntrada);
 	fclose(archSalida);
